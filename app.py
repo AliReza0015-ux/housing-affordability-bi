@@ -24,8 +24,8 @@ fi_img = model.load_feature_importance_img(chosen)
 fi_tbl = model.load_feature_importance_table(chosen)
 
 cols = st.columns(2)
-if conf_img: cols[0].image(conf_img, caption=f"{chosen} – Confusion Matrix", use_column_width=True)
-if fi_img:   cols[1].image(fi_img, caption=f"{chosen} – Top 5 Features", use_column_width=True)
+if conf_img: cols[0].image(conf_img, caption=f"{chosen} – Confusion Matrix", use_container_width=True)
+if fi_img:  cols[1].image(fi_img,   caption=f"{chosen} – Top 5 Features",  use_container_width=True)
 if fi_tbl is not None:
     with st.expander("Feature Importance (Top 5) – Table"):
         st.dataframe(fi_tbl)
