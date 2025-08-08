@@ -6,8 +6,8 @@ from pathlib import Path
 import model
 import utils
 
-st.set_page_config(page_title="🏠 Housing Affordability Dashboard", layout="wide")
-st.title("🏠 Housing Affordability – Model Dashboard")
+st.set_page_config(page_title=" Housing Affordability Dashboard", layout="wide")
+st.title(" Housing Affordability – Model Dashboard")
 
 # -------------------------
 # Cached loaders for performance
@@ -70,7 +70,7 @@ st.markdown("---")
 # -------------------------
 # Upload → Predict → Download
 # -------------------------
-st.subheader("🔄 Batch Predictions")
+st.subheader(" Batch Predictions")
 
 uploaded = st.file_uploader(
     "Upload a CSV to score (must include the training features in any order)",
@@ -106,7 +106,7 @@ if uploaded:
         utils.df_to_csv_download(
             result,
             filename=f"predictions_{chosen}.csv",
-            label="⬇️ Download predictions CSV"
+            label="⬇Download predictions CSV"
         )
 
         with st.expander("Columns used for prediction (ordered)"):
