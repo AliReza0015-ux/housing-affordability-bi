@@ -5,7 +5,7 @@ import model
 import utils
 
 st.set_page_config(page_title="🏠 Housing Affordability Dashboard", layout="wide")
-st.title("🏠 Housing Affordability – Model Dashboard")
+st.title("Housing Affordability – Model Dashboard")
 
 # Sidebar – model picker
 st.sidebar.title("Models")
@@ -33,7 +33,7 @@ if fi_tbl is not None:
 st.markdown("---")
 
 # ---- Upload → Predict → Download ----
-st.subheader("🔄 Batch Predictions")
+st.subheader("Batch Predictions")
 uploaded = st.file_uploader("Upload a CSV to score (must include the training features)", type=["csv"])
 if uploaded:
     try:
@@ -48,7 +48,7 @@ if uploaded:
         st.success(f"Predictions generated with {chosen}.")
         st.dataframe(result.head())
 
-        utils.df_to_csv_download(result, filename=f"predictions_{chosen}.csv", label="⬇️ Download predictions CSV")
+        utils.df_to_csv_download(result, filename=f"predictions_{chosen}.csv", label="⬇Download predictions CSV")
         with st.expander("Columns used for prediction (in order)"):
             st.code("\n".join(model.get_feature_list()))
     except Exception as e:
