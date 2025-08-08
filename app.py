@@ -67,6 +67,21 @@ if fi_tbl is not None:
 
 st.markdown("---")
 
+# ---- Interpretability: Permutation Importance (optional) ----
+pi_img = model.load_perm_importance_img(chosen)
+pi_tbl = model.load_perm_importance_table(chosen)
+
+with st.expander("Interpretability – Permutation Importance (Top 5)"):
+    if not pi_img and pi_tbl is None:
+        st.info("Permutation importance artifacts not found. Generate them in the notebook to enable this section.")
+    else:
+        cols_pi = st.columns(2)
+        if pi_img:
+            cols_pi[0].image(pi_img, caption=f"{chosen} – Permutation Importance (Top 5)", use_container_width=True)
+        if pi_tbl is not None:
+            cols_pi[1].dataframe(pi_tbl, use_container_width=True)
+
+
 # -------------------------
 # Upload → Predict → Download
 # -------------------------
