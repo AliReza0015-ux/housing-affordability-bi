@@ -97,6 +97,32 @@ with st.expander("Interpretability – Permutation Importance (Top 5)"):
         if pi_tbl is not None:
             cols_pi[1].dataframe(pi_tbl, use_container_width=True)
 
+# ---- CV results over folds (line chart) ----
+import os
+
+cv_results_path = "outputs/cv_results.csv"
+if os.path.exists(cv_results_path):
+    cvdf = pd.read_csv(cv_results_path)
+
+    # expected columns from the notebook cell I gave you
+    # fold | accuracy_rf | accuracy_xgb
+    needed = {"fold", "accuracy_rf", "accuracy_xgb"}
+    if needed.issubset(set(cvdf.columns)):
+        # pick the right column based on the chosen model
+        col_map = {"random_forest": "accuracy_rf", "xgboost": "accuracy_xgb"}
+        ycol = col_map.get(chosen)
+
+        st.subheader("Cross-Validation Accuracy over Folds")
+        st.line_chart(cvdf.set_index("fold")[[ycol]])
+
+        with st.expander("See all folds (RF vs XGB)"):
+            st.dataframe(cvdf, use_container_width=True)
+    else:
+        st.warning(f"`cv_results.csv` columns not as expected. Found {list(cvdf.columns)}.")
+else:
+    st.info("CV per-fold results not found. Re-run the notebook cell that saves `outputs/cv_results.csv` and push it.")
+
+
 st.markdown("---")
 
 # -------------------------
