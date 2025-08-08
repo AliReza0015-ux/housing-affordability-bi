@@ -112,7 +112,7 @@ def load_perm_importance_img(model_name: str):
     return str(p) if p.exists() else None
 
 def load_perm_importance_table(model_name: str):
-    """Return DataFrame of permutation importance (top 10) if it exists."""
+    """Return DataFrame of permutation importance (top 5) if it exists."""
     p = ARTIFACT_DIR / f"{model_name}_permutation_importance_top10.csv"
     return pd.read_csv(p) if p.exists() else None
 
