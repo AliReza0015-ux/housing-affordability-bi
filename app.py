@@ -1,15 +1,16 @@
 # app.py
 import streamlit as st
 import pandas as pd
-import model
-import utils
 from pathlib import Path
 
-st.set_page_config(page_title="Housing Affordability Dashboard", layout="wide")
-st.title("Housing Affordability – Model Dashboard")
+import model
+import utils
+
+st.set_page_config(page_title="🏠 Housing Affordability Dashboard", layout="wide")
+st.title("🏠 Housing Affordability – Model Dashboard")
 
 # -------------------------
-# Cache loaders for performance
+# Cached loaders for performance
 # -------------------------
 @st.cache_resource
 def load_model_cached(name: str):
@@ -27,13 +28,29 @@ models = [m for m in model.list_models() if m]
 if not models:
     st.error("No artifacts in outputs/. Run your Phase-2 notebook freeze cells first.")
     st.stop()
+
 chosen = st.sidebar.radio("Choose a model", models)
+
+with st.sidebar.expander("📄 Download feature template"):
+    # let users grab the exact schema your model expects
+    utils.schema_template_download(model.get_feature_list())
 
 # -------------------------
 # Metrics & visuals
 # -------------------------
-metrics = load_metrics_cached(chosen)
-utils.show_metrics(metrics)
+raw_metrics = load_metrics_cached(chosen) or {}
+
+# show only the key KPIs as cards
+cards = {
+    "model": raw_metrics.get("model", "?"),
+    "accuracy": raw_metrics.get("accuracy", 0.0),
+}
+cr = raw_metrics.get("classification_report", {})
+f1w = cr.get("weighted avg", {}).get("f1-score")
+if f1w is not None:
+    cards["f1 (weighted)"] = f1w
+
+utils.show_metrics(cards)
 
 conf_img = model.load_confusion_matrix_img(chosen)
 fi_img = model.load_feature_importance_img(chosen)
@@ -53,9 +70,10 @@ st.markdown("---")
 # -------------------------
 # Upload → Predict → Download
 # -------------------------
-st.subheader("Batch Predictions")
+st.subheader("🔄 Batch Predictions")
+
 uploaded = st.file_uploader(
-    "Upload a CSV to score (must include the training features)",
+    "Upload a CSV to score (must include the training features in any order)",
     type=["csv"]
 )
 
@@ -67,18 +85,16 @@ if uploaded:
 
         # Schema validation
         feature_list = model.get_feature_list()
-        missing = [col for col in feature_list if col not in df_in.columns]
-        extra = [col for col in df_in.columns if col not in feature_list]
-
+        missing, extra = utils.check_schema(df_in, feature_list)
+        utils.display_schema_warnings(missing, extra)
         if missing:
-            st.error(f"Missing required columns: {missing}")
             st.stop()
-        if extra:
-            st.warning(f"Extra columns ignored: {extra}")
-            df_in = df_in[feature_list]
 
-        # Predictions
-        model_obj = load_model_cached(chosen)
+        # keep only the required columns, in the correct order
+        df_in = df_in[feature_list]
+
+        # Predict
+        mdl = load_model_cached(chosen)
         _, preds = model.predict_on_df(df_in, chosen)
         result = df_in.copy()
         result[f"prediction_{chosen}"] = preds
@@ -86,12 +102,17 @@ if uploaded:
         st.success(f"Predictions generated with {chosen}.")
         st.dataframe(result.head(), use_container_width=True)
 
-        utils.df_to_csv_download(result,
-                                 filename=f"predictions_{chosen}.csv",
-                                 label="⬇️ Download predictions CSV")
-        with st.expander("Columns used for prediction (in order)"):
+        # Download predictions
+        utils.df_to_csv_download(
+            result,
+            filename=f"predictions_{chosen}.csv",
+            label="⬇️ Download predictions CSV"
+        )
+
+        with st.expander("Columns used for prediction (ordered)"):
             st.code("\n".join(feature_list))
+
     except Exception as e:
         st.error(f"Failed to score file: {e}")
 else:
-    st.info("Upload a CSV to run predictions. The app will align columns to the training feature list and fill any missing with 0.")
+    st.info("Upload a CSV to run predictions. You can download the feature template from the sidebar.")
