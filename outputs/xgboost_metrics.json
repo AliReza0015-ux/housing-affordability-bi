@@ -1,0 +1,43 @@
+{
+  "model": "XGBClassifier",
+  "accuracy": 0.9879518072289156,
+  "classification_report": {
+    "0": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 20.0
+    },
+    "1": {
+      "precision": 0.9523809523809523,
+      "recall": 1.0,
+      "f1-score": 0.975609756097561,
+      "support": 20.0
+    },
+    "2": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 22.0
+    },
+    "3": {
+      "precision": 1.0,
+      "recall": 0.9523809523809523,
+      "f1-score": 0.975609756097561,
+      "support": 21.0
+    },
+    "accuracy": 0.9879518072289156,
+    "macro avg": {
+      "precision": 0.9880952380952381,
+      "recall": 0.9880952380952381,
+      "f1-score": 0.9878048780487805,
+      "support": 83.0
+    },
+    "weighted avg": {
+      "precision": 0.9885255306942055,
+      "recall": 0.9879518072289156,
+      "f1-score": 0.9879518072289156,
+      "support": 83.0
+    }
+  }
+}
