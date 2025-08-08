@@ -104,3 +104,15 @@ def predict_on_df(df: pd.DataFrame, model_name: str):
     X = prepare_features(df, feature_list)
     preds = mdl.predict(X)
     return X, preds
+
+# Permutation importance assets (optional)
+def load_perm_importance_img(model_name: str):
+    """Return path to permutation importance PNG if it exists."""
+    p = ARTIFACT_DIR / f"{model_name}_permutation_importance_top10.png"
+    return str(p) if p.exists() else None
+
+def load_perm_importance_table(model_name: str):
+    """Return DataFrame of permutation importance (top 10) if it exists."""
+    p = ARTIFACT_DIR / f"{model_name}_permutation_importance_top10.csv"
+    return pd.read_csv(p) if p.exists() else None
+
