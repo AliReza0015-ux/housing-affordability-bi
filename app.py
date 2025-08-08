@@ -145,3 +145,4 @@ if uploaded:
         utils.df_to_csv_download(
             result,
             filename=f"predictions_{chosen}.csv",
+        )
