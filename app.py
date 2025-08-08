@@ -5,8 +5,8 @@ import pandas as pd
 import model
 import utils
 
-st.set_page_config(page_title=" Housing Affordability Dashboard", layout="wide")
-st.title(" Housing Affordability – Model Dashboard")
+st.set_page_config(page_title="🏠 Housing Affordability Dashboard", layout="wide")
+st.title("🏠 Housing Affordability – Model Dashboard")
 
 # -------------------------
 # Cached loaders for performance
@@ -58,7 +58,7 @@ if f1w is not None:
     cards["f1 (weighted)"] = f1w
 utils.show_metrics(cards)
 
-# CV summary (if you saved outputs/cv_summary.json from the notebook)
+# CV summary (if saved by notebook)
 cv = load_cv_summary()
 if cv:
     cols = st.columns(2)
@@ -83,12 +83,11 @@ if fi_tbl is not None:
 st.markdown("---")
 
 # ---- Interpretability: Permutation Importance ----
-# NOTE: If your notebook saved *top10* files, either change your notebook to top5,
-# or change the caption below to say "Top 10".
+# NOTE: If your notebook saved *top10* files, either change caption to "Top 10" or re-export as top5.
 pi_img = model.load_perm_importance_img(chosen)
 pi_tbl = model.load_perm_importance_table(chosen)
 
-with st.expander("Interpretability – Permutation Importance (Top 5)"):
+with st.expander("🧠 Interpretability – Permutation Importance (Top 5)"):
     if not pi_img and pi_tbl is None:
         st.info("Permutation importance artifacts not found. Generate them in the notebook to enable this section.")
     else:
@@ -103,7 +102,7 @@ st.markdown("---")
 # -------------------------
 # Upload → Predict → Download
 # -------------------------
-st.subheader("Batch Predictions")
+st.subheader("🔄 Batch Predictions")
 
 uploaded = st.file_uploader(
     "Upload a CSV to score (must include the training features in any order)",
@@ -112,7 +111,7 @@ uploaded = st.file_uploader(
 
 if uploaded:
     try:
-        # Friendly CSV read (handles utf-8-sig and commas)
+        # Friendly CSV read (handles utf-8-sig)
         try:
             df_in = pd.read_csv(uploaded)
         except Exception:
@@ -145,4 +144,13 @@ if uploaded:
         utils.df_to_csv_download(
             result,
             filename=f"predictions_{chosen}.csv",
-                                )
+            label="⬇️ Download predictions CSV"
+        )
+
+        with st.expander("Columns used for prediction (ordered)"):
+            st.code("\n".join(feature_list))
+
+    except Exception as e:
+        st.error(f"Failed to score file: {e}")
+else:
+    st.info("Upload a CSV to run predictions. You can download the feature template from the sidebar.")
