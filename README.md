@@ -3,8 +3,37 @@
 ```markdown
 # Housing Affordability – Model Dashboard
 
-This project is part of **Phase-2** of the Housing Affordability Analysis.  
-It provides an **interactive dashboard** built with [Streamlit](https://streamlit.io/) to explore the performance of **Random Forest** and **XGBoost** models trained to classify housing affordability levels.
+# Housing Affordability Dashboard
+
+This project develops an interactive data analytics and machine learning solution to analyze housing affordability trends.
+
+##  Project Overview
+- Built an end-to-end analytics pipeline combining housing, economic, and demographic data  
+- Developed predictive models to estimate affordability patterns  
+- Deployed an interactive dashboard for real-time insights  
+
+## Tech Stack
+- Python (Pandas, NumPy, Scikit-learn)
+- Streamlit
+- Machine Learning: Random Forest, XGBoost
+- Data Visualization
+
+## Key Features
+- Interactive dashboard for exploring housing affordability trends  
+- Model-based predictions using machine learning  
+- Data cleaning, transformation, and feature engineering  
+- Visualization of key economic and housing indicators  
+
+##  Business Value
+- Supports data-driven decision-making in housing and policy analysis  
+- Identifies affordability trends and potential risk areas  
+- Helps users explore “what-if” scenarios interactively  
+
+##  Deployment
+- Streamlit dashboard for real-time interaction  
+
+##  GitHub
+https://github.com/AliReza0015-ux/housing-affordability-bi
 
 ---
 Key Skills Demonstrated:
