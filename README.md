@@ -7,7 +7,12 @@ This project is part of **Phase-2** of the Housing Affordability Analysis.
 It provides an **interactive dashboard** built with [Streamlit](https://streamlit.io/) to explore the performance of **Random Forest** and **XGBoost** models trained to classify housing affordability levels.
 
 ---
-
+Key Skills Demonstrated:
+- Python data analysis
+- Machine learning model comparison
+- Streamlit dashboard development
+- Classification metrics and feature importance
+- Communicating insights through an interactive dashboard
 ## Project Structure
 ```
 
